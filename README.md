@@ -1,6 +1,9 @@
 ## description
 
-Inspired by [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6efeb19eb640), I created an canvas version of it, which supports PC and mobile devices.
+Inspired by and d3.js project [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6efeb19eb640), I created an canvas version of it, which supports PC and mobile devices.
+
+## demo
+
 Here is the online [demo](http://demo.jackyang.me/circle-split/circle-split-demo.html)
 
 ## usage
