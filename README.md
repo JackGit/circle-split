@@ -1,6 +1,6 @@
 ## description
 
-Inspired by and d3.js project [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6efeb19eb640), I created an canvas version of it, which supports PC and mobile devices.
+Inspired by a d3.js project [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6efeb19eb640), I created a canvas version of it, which supports PC and mobile devices.
 
 ## demo
 
