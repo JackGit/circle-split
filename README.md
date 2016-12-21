@@ -12,11 +12,10 @@ Here is the online [demo](http://demo.jackyang.me/circle-split/circle-split-demo
 npm i circle-split
 ```
 
-or include the source JS file directly, but it has dependency of [center-it](https://www.npmjs.com/package/center-it)
+or include the source JS file directly
 
 ```html
-<script src="CenterIt.js"></script>
-<script src="CircleSplit.js"></script>
+<script src="circle-split.min.js"></script>
 ```
 
 ## usage
