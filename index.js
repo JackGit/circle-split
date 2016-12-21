@@ -28,6 +28,7 @@ function CircleSplit(el, options) {
   this.canvasSize = this.options.size * CANVAS_SCALE_RATIO;
   this.diameter = this.canvasSize / 2;
   this.circles = []; // {x, y, r, readyToSplit} x, y, r is canvas pixel, which is screen pixel * CANVAS_SCALE_RATIO
+  this.renderingCircles = [];
 
   this.sourceCanvas = null;
   this.targetCanvas = null;
@@ -97,7 +98,7 @@ CircleSplit.prototype = {
       x = arguments[0];
       y = arguments[1];
       r = arguments[2];
-      this.circles.push({x: x, y: y, r: r, readyToSplit: false});
+      this.circles.push({x: x, y: y, r: r});
     } else {
       // repaint existing circle
       x = arguments[0].x;
@@ -147,6 +148,12 @@ CircleSplit.prototype = {
         y > circle.y - circle.r && y < circle.y + circle.r
       ) {
         circle.readyToSplit = true;
+        this.renderingCircles.push({
+          x: circle.x,
+          y: circle.y,
+          r: circle.r,
+          index: i
+        });
         break;
       }
     }
@@ -175,19 +182,23 @@ CircleSplit.prototype = {
 
   render: function () {
     var minDiameter = this.options.minDiameter * CANVAS_SCALE_RATIO;
+    var renderingCircles = this.renderingCircles;
+    var circle = null
 
-    this.circles.forEach(function (circle) {
-      if (circle.readyToSplit && circle.r > minDiameter) {
-        this.splitCircle(circle);
-      } else {
-        circle.readyToSplit = false;
-      }
-    }, this);
+    while(circle = renderingCircles.pop()) {
+        this.circles[circle.index].readyToSplit = false;
+
+        if (circle.r > minDiameter) {
+          this.splitCircle(circle);
+        }
+    }
+
     this.requestAnimationSeed = requestAnimationFrame(this.render.bind(this));
   },
 
   splitCircle: function (circle) {
     var context = this.targetCanvas.getContext('2d');
+    var originCircle = this.circles[circle.index];
     var r = circle.r / 2;
 
     // clear rect
@@ -199,17 +210,25 @@ CircleSplit.prototype = {
     this.drawCircle(circle.x + r, circle.y + r, r);
 
     // repaint current circle
-    circle.x -= r;
-    circle.y -= r;
-    circle.r = r;
-    circle.readyToSplit = false;
-    this.drawCircle(circle);
+    originCircle.x -= r;
+    originCircle.y -= r;
+    originCircle.r = r;
+    this.drawCircle(originCircle);
   },
 
   split: function () {
-    this.circles.forEach(function (circle) {
-      circle.readyToSplit = true;
-    });
+    var minDiameter = this.options.minDiameter * CANVAS_SCALE_RATIO;
+    this.renderingCircles = [];
+    this.circles.forEach(function (circle, index) {
+      if (circle.r > minDiameter) {
+        this.renderingCircles.push({
+          x: circle.x,
+          y: circle.y,
+          r: circle.r,
+          index: index
+        });
+      }
+    }, this);
   },
 
   getPixelRGBColor: function (x, y) {
