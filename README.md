@@ -6,6 +6,19 @@ Inspired by and d3.js project [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6ef
 
 Here is the online [demo](http://demo.jackyang.me/circle-split/circle-split-demo.html)
 
+## install
+
+```bash
+npm i circle-split
+```
+
+or include the source JS file directly, but it has dependency of [center-it](https://www.npmjs.com/package/center-it)
+
+```html
+<script src="CenterIt.js"></script>
+<script src="CircleSplit.js"></script>
+```
+
 ## usage
 
 ### initiate
