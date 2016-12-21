@@ -1,10 +1,11 @@
 {
   "name": "circle-split",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/circle-split.common.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "webpack --config webpack.config.script.js && webpack --config webpack.config.common.js"
   },
   "repository": {
     "type": "git",

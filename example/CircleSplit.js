@@ -160,6 +160,7 @@
 
         if (typeof image === 'string') {
           this.sourceImage = new Image();
+          this.sourceImage.crossOrigin = 'Anonymous';
           this.sourceImage.onload = function () {
               this.drawSourceImage();
               this.drawCircle(this.targetCanvas.width / 2, this.targetCanvas.height / 2, this.diameter)
