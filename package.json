@@ -1,0 +1,22 @@
+{
+  "name": "circle-split",
+  "version": "0.0.1",
+  "description": "",
+  "main": "CircleSplit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackgit/circle-split.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackgit/circle-split/issues"
+  },
+  "homepage": "https://github.com/jackgit/circle-split#readme",
+  "dependencies": {
+    "center-it": "^0.1.0"
+  }
+}
