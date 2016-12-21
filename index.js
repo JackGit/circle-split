@@ -1,9 +1,10 @@
 var CenterIt = require('center-it');
+var CANVAS_SCALE_RATIO = 2;
 
 function CircleSplit(el, options) {
   var defaultOptions = {
-    minDiameter: 2,
-    size: 'auto',
+    minDiameter: 2, // screen pixel
+    size: 'auto',   // screen pixel: 'auto', or number of px, like 300, which indicates the width and height or the mount node element
     imageCenterType: 'contain'
   };
 
@@ -24,11 +25,13 @@ function CircleSplit(el, options) {
     this.options.size = Math.min(this.el.clientWidth, this.el.clientHeight);
   }
 
-  this.diameter = this.options.size / 2;
+  this.canvasSize = this.options.size * CANVAS_SCALE_RATIO;
+  this.diameter = this.canvasSize / 2;
+  this.circles = []; // {x, y, r, readyToSplit} x, y, r is canvas pixel, which is screen pixel * CANVAS_SCALE_RATIO
+
   this.sourceCanvas = null;
   this.targetCanvas = null;
   this.sourceImage = null;
-  this.circles = []; // {x, y, r, readyToSplit}
   this.requestAnimationSeed = 0;
 
   this.moveEvent = 'ontouchstart' in window ? 'touchmove' : 'mousemove';
@@ -50,28 +53,32 @@ CircleSplit.prototype = {
 
   createSourceCanvas: function () {
     this.sourceCanvas = document.createElement('canvas');
-    this.sourceCanvas.width = this.options.size;
-    this.sourceCanvas.height = this.options.size;
+    this.sourceCanvas.width = this.canvasSize;
+    this.sourceCanvas.height = this.canvasSize;
   },
 
   createTargetCanvas: function () {
     this.targetCanvas = document.createElement('canvas');
-    this.targetCanvas.width = this.options.size;
-    this.targetCanvas.height = this.options.size;
+    this.targetCanvas.width = this.canvasSize;
+    this.targetCanvas.height = this.canvasSize;
+    this.targetCanvas.style.width
+      = this.targetCanvas.style.height
+      = this.options.size + 'px';
     this.el.appendChild(this.targetCanvas);
   },
 
   drawSourceImage: function () {
+    var canvasSize = this.canvasSize;
     var centerIt = new CenterIt({
-      containerWidth: this.options.size,
-      containerHeight: this.options.size,
+      containerWidth: canvasSize,
+      containerHeight: canvasSize,
       originWidth: this.sourceImage.naturalWidth,
       originHeight: this.sourceImage.naturalHeight,
       centerType: this.options.imageCenterType
     });
     var context = this.sourceCanvas.getContext('2d');
 
-    context.clearRect(0, 0, this.options.size, this.options.size);
+    context.clearRect(0, 0, canvasSize, canvasSize);
     context.drawImage(
       this.sourceImage,
       centerIt.offset().left,
@@ -118,9 +125,9 @@ CircleSplit.prototype = {
     var rect = this.rect;
 
     if (hasTouch) {
-      this.tagCircle(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+      this.tagCircle((e.touches[0].clientX - rect.left) * CANVAS_SCALE_RATIO, (e.touches[0].clientY - rect.top) * CANVAS_SCALE_RATIO);
     } else {
-      this.tagCircle(e.offsetX, e.offsetY);
+      this.tagCircle(e.offsetX * CANVAS_SCALE_RATIO, e.offsetY * CANVAS_SCALE_RATIO);
     }
 
     e.preventDefault();
@@ -146,8 +153,10 @@ CircleSplit.prototype = {
   },
 
   setImage: function (image) {
+    var canvasSize = this.canvasSize;
+
     this.circles = [];
-    this.targetCanvas.getContext('2d').clearRect(0, 0, this.options.size, this.options.size);
+    this.targetCanvas.getContext('2d').clearRect(0, 0, canvasSize, canvasSize);
 
     if (typeof image === 'string') {
       this.sourceImage = new Image();
@@ -165,7 +174,7 @@ CircleSplit.prototype = {
   },
 
   render: function () {
-    var minDiameter = this.options.minDiameter;
+    var minDiameter = this.options.minDiameter * CANVAS_SCALE_RATIO;
 
     this.circles.forEach(function (circle) {
       if (circle.readyToSplit && circle.r > minDiameter) {
