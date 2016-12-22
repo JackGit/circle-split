@@ -167,23 +167,26 @@ CircleSplit.prototype = {
 
     if (typeof image === 'string') {
       this.sourceImage = new Image();
-      this.sourceImage.crossOrigin = 'Anonymous';
+
+      // can't set crossOrigin for local file selection, it makes onload fail
+      image.startsWith('data:image') || (this.sourceImage.crossOrigin = 'anonymous');
+
       this.sourceImage.onload = function () {
         this.drawSourceImage();
-        this.drawCircle(this.targetCanvas.width / 2, this.targetCanvas.height / 2, this.diameter)
+        this.drawCircle(this.targetCanvas.width / 2, this.targetCanvas.height / 2, this.diameter);
       }.bind(this);
       this.sourceImage.src = image;
     } else {
       this.sourceImage = image;
       this.drawSourceImage();
-      this.drawCircle(this.targetCanvas.width / 2, this.targetCanvas.height / 2, this.diameter)
+      this.drawCircle(this.targetCanvas.width / 2, this.targetCanvas.height / 2, this.diameter);
     }
   },
 
   render: function () {
     var minDiameter = this.options.minDiameter * CANVAS_SCALE_RATIO;
     var renderingCircles = this.renderingCircles;
-    var circle = null
+    var circle;
 
     while(circle = renderingCircles.pop()) {
         this.circles[circle.index].readyToSplit = false;
