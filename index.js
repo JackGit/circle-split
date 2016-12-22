@@ -126,7 +126,7 @@ CircleSplit.prototype = {
     var rect = this.rect;
 
     if (hasTouch) {
-      this.tagCircle((e.touches[0].clientX - rect.left) * CANVAS_SCALE_RATIO, (e.touches[0].clientY - rect.top) * CANVAS_SCALE_RATIO);
+      this.tagCircle((e.touches[0].pageX - rect.left) * CANVAS_SCALE_RATIO, (e.touches[0].pageY - rect.top) * CANVAS_SCALE_RATIO);
     } else {
       this.tagCircle(e.offsetX * CANVAS_SCALE_RATIO, e.offsetY * CANVAS_SCALE_RATIO);
     }
