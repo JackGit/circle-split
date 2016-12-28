@@ -26,7 +26,8 @@ or include the source JS file directly
 var cs = new CircleSplit('#mountNode', {
   size: 300,
   minDiameter: 4,
-  imageCenterType: 'cover'
+  imageCenterType: 'cover',
+  eventEnabled: true
 });
 ```
 
@@ -36,7 +37,8 @@ var cs = new CircleSplit('#mountNode', {
 var defaultOptions = {
   size: 'auto',     // will set mininum value of mountNode's width and height
   minDiameter: 2,   // the circle can split until the diameter reaches to 2 px
-  imageCenterType: 'contain'  // designate the center type when put the image of the square box
+  imageCenterType: 'contain',  // designate the center type when put the image of the square box
+  eventEnabled: true // enable touchmove and mouseove event
 };
 ```
 
@@ -47,8 +49,14 @@ var defaultOptions = {
 cs.setImage('path/to/your/image.jpg')
 cs.setImage(document.getElementById('targetImageElement'))
 
-// split all circles into next level
-cs.split()
+// set pure color
+cs.setColor('rgba(255,0,0)');
+
+// split
+cs.split() // split all circles into next level
+cs.split(level) // split all circles into target level
+cs.split(x, y) // split hit circle into next level
+cs.split(x, y, level) // split hit circle into target level, target level should be higher than circle's current level
 
 // you can bind and unbind event any time
 cs.bindEvent()
