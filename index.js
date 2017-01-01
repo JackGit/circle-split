@@ -232,6 +232,10 @@ CircleSplit.prototype = {
     this.requestAnimationSeed = requestAnimationFrame(this._render.bind(this));
   },
 
+  _resetCanvas: function (canvas) {
+    canvas.getContext('2d').clearRect(0, 0, this.canvasSize, this.canvasSize);
+  },
+
   bindEvent: function () {
     this.targetCanvas.addEventListener(this.moveEvent, this.moveHandler);
   },
@@ -258,7 +262,7 @@ CircleSplit.prototype = {
     this.pureColorContent = rgbValue;
     this.sourceImage = null;
     this.circles = [];
-    this.targetCanvas.getContext('2d').clearRect(0, 0, this.canvasSize, this.canvasSize);
+    this._resetCanvas(this.targetCanvas);
     this._drawCircle({
       x: this.targetCanvas.width / 2,
       y: this.targetCanvas.height / 2,
@@ -270,11 +274,9 @@ CircleSplit.prototype = {
   },
 
   setImage: function (image) {
-    var canvasSize = this.canvasSize;
-
     this.circles = [];
     this.pureColorContent = null;
-    this.targetCanvas.getContext('2d').clearRect(0, 0, canvasSize, canvasSize);
+    this._resetCanvas(this.targetCanvas);
 
     if (typeof image === 'string') {
       this.sourceImage = new Image();
