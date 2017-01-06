@@ -2,9 +2,11 @@
 
 Inspired by a d3.js project [ImageMap](http://bl.ocks.org/nswamy14/df13d67b6efeb19eb640), I created a canvas version of it, which supports PC and mobile devices.
 
+![screenshot](http://ofkyhrvda.bkt.clouddn.com/post/image/o_1b5ed5culrte5t6r5arev1s1k7.jpeg)
+
 ## demo
 
-Here is the online [demo](http://demo.jackyang.me/circle-split/circle-split-demo.html)
+Here is the online [demo](http://demo.jackyang.me/circle-split/circle-split-demo.html). Select an image and move or touch screen
 
 ## install
 
