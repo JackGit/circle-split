@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Circle Split Demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=0">
+    <style>
+        body {
+            margin: 0;
+        }
+        #mountNode {
+            background: #efefef;
+            max-width: 500px;
+            max-height: 500px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <div id="mountNode"></div>
+    <div id='imgInput'>
+        <input type="file" onchange="onFileSelected(event)" value="select an image">
+    </div>
+</div>
+<script type="text/javascript" src="../dist/circle-split.min.js?v=1"></script>
+
+<script>
+    var cs = null;
+
+    function onFileSelected(event) {
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            cs.setImage(event.target.result);
+        };
+        reader.readAsDataURL(selectedFile);
+    }
+
+    function resize () {
+        var mountNode = document.getElementById('mountNode');
+        mountNode.style.width = mountNode.style.height = document.body.clientWidth + 'px';
+    }
+
+    function init () {
+        resize();
+        cs = new CircleSplit('#mountNode', {
+            minDiameter: 2,
+            size: 'auto',
+            imageCenterType: 'contain'
+        });
+        cs.setImage('http://ogm89ro58.bkt.clouddn.com/image/flower.jpeg');
+    }
+
+    init();
+</script>
+</body>
+</html>
